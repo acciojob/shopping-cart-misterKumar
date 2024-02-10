@@ -61,6 +61,8 @@
     const itemPrice = parseFloat(itemPriceInput.value);
     const itemQty = parseInt(itemQtyInput.value);
 
+    console.log("Item Quantity: ", itemQty); // Check the value of itemQty
+
     if (!itemName || isNaN(itemPrice) || itemPrice <= 0 || isNaN(itemQty) || itemQty <= 0) {
       alert('Please enter a valid item name, price, and quantity.');
       return;
