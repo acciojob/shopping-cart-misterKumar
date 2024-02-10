@@ -27,6 +27,8 @@
 <input type="text" id="item-name-input" aria-labelledby="item-name-input">
 <label for="item-price-input">Price:</label>
 <input type="number" id="item-price-input" aria-labelledby="item-price-input">
+<label for="item-qty-input">Quantity:</label>
+<input type="number" id="item-qty-input" aria-labelledby="item-qty-input">
 <button id="add">Add</button>
 
 <table id="shopping-cart">
@@ -34,6 +36,7 @@
     <tr>
       <th aria-label="Item Name">Item Name</th>
       <th aria-label="Price">Price</th>
+      <th aria-label="Quantity">Quantity</th>
     </tr>
   </thead>
   <tbody>
@@ -46,6 +49,7 @@
 <script>
   const itemNameInput = document.getElementById('item-name-input');
   const itemPriceInput = document.getElementById('item-price-input');
+  const itemQtyInput = document.getElementById('item-qty-input');
   const addButton = document.getElementById('add');
   const shoppingCart = document.getElementById('shopping-cart');
   const totalDisplay = document.getElementById('total');
@@ -55,9 +59,10 @@
   function addItem() {
     const itemName = itemNameInput.value.trim();
     const itemPrice = parseFloat(itemPriceInput.value);
+    const itemQty = parseInt(itemQtyInput.value);
 
-    if (!itemName || isNaN(itemPrice) || itemPrice <= 0) {
-      alert('Please enter a valid item name and price.');
+    if (!itemName || isNaN(itemPrice) || itemPrice <= 0 || isNaN(itemQty) || itemQty <= 0) {
+      alert('Please enter a valid item name, price, and quantity.');
       return;
     }
 
@@ -65,14 +70,17 @@
     newRow.innerHTML = `
       <td id="item">${itemName}</td>
       <td id="price">$${itemPrice.toFixed(2)}</td>
+      <td id="quantity">${itemQty}</td>
     `;
     shoppingCart.querySelector('tbody').appendChild(newRow);
 
-    updateTotal(itemPrice);
+    const totalPrice = itemPrice * itemQty;
+    updateTotal(totalPrice);
 
     // Clear input fields
     itemNameInput.value = '';
     itemPriceInput.value = '';
+    itemQtyInput.value = '';
   }
 
   function updateTotal(price) {
